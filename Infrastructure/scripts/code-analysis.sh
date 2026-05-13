@@ -3,9 +3,8 @@ set -e
 
 echo "Running Salesforce Code Analyzer..."
 
-sf scanner run \
+sf code-analyzer run \
   --target "force-app" \
-  --format table \
-  --severity-threshold 3
+  --view table
 
 echo "Code analysis completed."
