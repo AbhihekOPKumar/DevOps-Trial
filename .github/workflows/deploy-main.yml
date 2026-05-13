@@ -1,0 +1,33 @@
+name: Deploy Main
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-main:
+    name: Deploy to Salesforce Org
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Make scripts executable
+        run: chmod +x Infrastructure/scripts/*.sh
+
+      - name: Install Salesforce CLI and Plugins
+        run: Infrastructure/scripts/install-plugins.sh
+
+      - name: Authenticate Salesforce Org
+        env:
+          SF_USERNAME: ${{ secrets.SF_USERNAME }}
+          SF_CONSUMER_KEY: ${{ secrets.SF_CONSUMER_KEY }}
+          SF_JWT_KEY: ${{ secrets.SF_JWT_KEY }}
+        run: Infrastructure/scripts/authenticate.sh
+
+      - name: Deploy Metadata Changes
+        run: Infrastructure/scripts/deploy.sh

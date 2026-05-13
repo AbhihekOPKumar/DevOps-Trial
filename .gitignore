@@ -46,3 +46,6 @@ $RECYCLE.BIN/
 
 keys/
 *.key
+server.key
+package/
+destructiveChanges/
